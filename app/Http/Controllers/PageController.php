@@ -7,7 +7,7 @@ class PageController extends Controller
 {
     public function viewLoginPage()
     {
-        return view('livewire.login');
+        return view('pages.login');
     }
 
     public function viewDashboardPage()

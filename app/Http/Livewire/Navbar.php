@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-class Login extends Component
+class Navbar extends Component
 {
     public function render()
     {
-        return view('livewire.login');
+        return view('livewire.navbar');
     }
 }

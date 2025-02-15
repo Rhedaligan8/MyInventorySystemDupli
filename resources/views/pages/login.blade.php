@@ -1,3 +1,3 @@
 <x-app-layout>
-    <h1 class="">login</h1>
+    <livewire:login-form />
 </x-app-layout>

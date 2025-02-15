@@ -1,0 +1,1 @@
+<img src="{{asset("images/pnri-logo.png")}}" alt="pnri-logo" {{$attributes->merge()}}>

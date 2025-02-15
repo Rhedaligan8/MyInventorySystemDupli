@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 
@@ -14,5 +15,9 @@ use App\Http\Controllers\PageController;
 |
 */
 
-Route::get('/', [PageController::class, 'viewLoginPage']);
-Route::get('dashboard', [PageController::class, 'viewDashboardPage']);
+Route::get('/', [PageController::class, 'viewLoginPage'])->middleware('guest')->name('login');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('dashboard', [PageController::class, 'viewDashboardPage'])->name('dashboard');
+    Route::post('logout', [UserController::class, 'logout'])->name('logout');
+});
