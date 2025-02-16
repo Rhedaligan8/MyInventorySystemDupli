@@ -15,7 +15,34 @@
 
 <body class="w-screen h-screen overflow-hidden">
     {{ $slot }}
+    <x-bladewind::notification />
     @livewireScripts
+    <script>
+        window.addEventListener('showNotification', function (event) {
+            showNotification(event.detail.title,
+                event.detail.message,
+                event.detail.type,
+                2,
+                'regular');
+        });
+
+
+        window.addEventListener('scrollToTop', () => {
+            document.querySelector('.table-container').scrollTo({ top: 0, behavior: 'auto' });
+        });
+
+
+        function showCustomModal(name) {
+            document.getElementsByName(`custom-${name}-modal`)[0].classList.remove('hidden');
+            document.getElementsByName(`custom-${name}-modal`)[0].classList.add('flex');
+        }
+
+
+        function hideCustomModal(name) {
+            document.getElementsByName(`custom-${name}-modal`)[0].classList.remove('flex');
+            document.getElementsByName(`custom-${name}-modal`)[0].classList.add('hidden');
+        }
+    </script>
 </body>
 
 </html>

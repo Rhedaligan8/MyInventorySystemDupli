@@ -13,7 +13,6 @@ class LoginForm extends Component
 {
 
     public $username, $password;
-    public $greeting = "hello";
 
     protected $rules = [
         "username" => "required",
@@ -35,6 +34,7 @@ class LoginForm extends Component
         $this->username = trim($this->username);
         $this->password = trim($this->password);
         $this->validate();
+
         $user = User::where("username", $this->username)->first();
 
         // check username

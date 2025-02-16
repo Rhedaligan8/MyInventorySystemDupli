@@ -1,39 +1,28 @@
 <?php
 
 namespace App\Http\Livewire;
-use Illuminate\Support\Facades\Auth;
+
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Log;
+use App\Models\User;
 use Livewire\WithPagination;
 
-class UsersTab extends Component
+class UserLogs extends Component
 {
     use WithPagination;
+
+    public $check = "from child";
+    public $user_id;
+
+    public $username;
     public $searchString = '';
     public $itemPerPage = 10;
-    public $totalUsers;
+    public $totalLogs;
 
     public $orderByString = 'created_at';
     public $orderBySort = 'desc';
 
-    public $searchBy = "name";
-
-    public function mount()
-    {
-        $this->totalUsers = User::count();
-    }
-
-    public function deleteUser($id)
-    {
-        $user = User::find($id);
-        if ($user->delete()) {
-            $log = new Log(['description' => "Removed (Name: $user->name, Username: $user->username, Role: $user->role) from the database."]);
-            Auth::user()->logs()->save($log);
-            $this->totalUsers = User::count();
-            $this->dispatchBrowserEvent('showNotification', ['title' => 'Delete Successful', 'message' => 'User was deleted successfully', 'type' => 'success']);
-        }
-    }
+    public $searchBy = "description";
 
     public function setOrderBy($field)
     {
@@ -71,14 +60,6 @@ class UsersTab extends Component
         $this->refreshTable();
     }
 
-    public function render()
-    {
-        $this->dispatchBrowserEvent('scrollToTop');
-        return view('livewire.users-tab', [
-            'users' => User::where($this->searchBy, 'like', $this->searchString . '%')->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
-        ]);
-    }
-
     public function refreshTable(): void
     {
         $this->resetPage();
@@ -95,8 +76,30 @@ class UsersTab extends Component
         $this->refreshTable();
     }
 
-    public function redirectToManageUser($username)
+    public function backToDashboard()
     {
-        return redirect()->route("manage-user", ['username' => $username]);
+        return redirect()->route('dashboard');
     }
+    public function backToManageProfile()
+    {
+        return redirect()->route("manage-user", ['username' => $this->username]);
+    }
+
+    public function mount($username)
+    {
+        $user = User::firstWhere('username', $username);
+        $this->username = $username;
+        $this->user_id = $user->id;
+        $this->totalLogs = Log::where("user_id", $user->id)->count();
+    }
+
+    public function render()
+    {
+        $this->dispatchBrowserEvent('scrollToTop');
+        return view('livewire.user-logs', [
+            'logs' => Log::where($this->searchBy, 'like', $this->searchString . '%')->where("user_id", $this->user_id)->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
+        ]);
+
+    }
+
 }

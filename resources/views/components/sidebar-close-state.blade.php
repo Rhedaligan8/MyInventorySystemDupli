@@ -1,4 +1,4 @@
-<div class="flex-col w-24 h-full gap-8 py-4 border-r-2 bg-zinc-50 border-zinc-300" :class="isSidebarOpen ? 'hidden' : 'flex'">
+<div class="flex-col w-24 h-full gap-8 py-4 border-r-2 min-w-24 bg-zinc-50 border-zinc-300" :class="isSidebarOpen ? 'hidden' : 'flex'">
     <div class="flex justify-center">
         <button @click="isSidebarOpen = true">
             <x-pnri-logo class="!w-8 !h-8" />

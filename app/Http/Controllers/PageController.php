@@ -14,4 +14,14 @@ class PageController extends Controller
     {
         return view('livewire.dashboard');
     }
+
+    public function viewManageUserPage($username)
+    {
+        return view('pages.manage-user', ['username' => $username]);
+    }
+
+    public function viewUserLogsPage($username)
+    {
+        return view('pages.user-logs', data: ['username' => $username]);
+    }
 }
