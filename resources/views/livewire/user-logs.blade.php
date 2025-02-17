@@ -21,7 +21,8 @@
             </div>
 
             <div class="flex flex-col gap-2 p-8 overflow-hidden border-4 bg-zinc-50 border-zinc-300 rounded-2xl grow">
-                <!-- Search -->
+                <h1 class="text-xl font-bold">{{ $name }} logs</h1>
+            <!-- Search -->
                 <div class="flex items-center gap-4">
                     <form wire:submit.prevent="searchFilter" class="grow">
                         <x-bladewind::input focused placeholder="Search..." wire:model.defer="searchString"

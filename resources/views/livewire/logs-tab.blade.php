@@ -13,9 +13,9 @@
                 size="regular" />
         </form>
         <select class="px-4 py-1 rounded-md w-44 min-w-32" wire:model="searchBy">
-            <option value="description">Description</option>
-            <option value="created_at">Created At</option>
-            <option value="name">Name</option>
+            <option value="logs.description">Description</option>
+            <option value="logs.created_at">Created At</option>
+            <option value="users.name">Name</option>
         </select>
         <x-bladewind::button button_text_css="font-bold" size="small"
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
@@ -55,7 +55,7 @@
                     <td>{{$log->description}}</td>
                     <td>{{$log->created_at}}</td>
                     <td>
-                        <button wire:click="goToUserLogs($log->username)">
+                        <button wire:click="goToUserLogs('{{$log->username}}')">
                             <x-bladewind::icon name="clipboard" type="solid" class="text-blue-500 hover:text-blue-600" />
                         </button>
                     </td>

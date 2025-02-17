@@ -15,6 +15,7 @@ class UserLogs extends Component
     public $user_id;
 
     public $username;
+    public $name;
     public $searchString = '';
     public $itemPerPage = 10;
     public $totalLogs;
@@ -88,7 +89,11 @@ class UserLogs extends Component
     public function mount($username)
     {
         $user = User::firstWhere('username', $username);
+        if (!$user) {
+            abort(404);
+        }
         $this->username = $username;
+        $this->name = $user->name;
         $this->user_id = $user->id;
         $this->totalLogs = Log::where("user_id", $user->id)->count();
     }

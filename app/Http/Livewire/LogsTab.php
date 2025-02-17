@@ -22,7 +22,7 @@ class LogsTab extends Component
     public $orderByString = 'created_at';
     public $orderBySort = 'desc';
 
-    public $searchBy = "description";
+    public $searchBy = "logs.description";
 
     public function setOrderBy($field)
     {
@@ -87,7 +87,7 @@ class LogsTab extends Component
 
     public function goToUserLogs($username)
     {
-        return redirect()->route('user-logs', ['username' => $this->username]);
+        return redirect()->route('user-logs', ['username' => $username]);
     }
 
     public function mount()
@@ -99,7 +99,7 @@ class LogsTab extends Component
     {
         $this->dispatchBrowserEvent('scrollToTop');
         return view('livewire.logs-tab', [
-            'logs' => Log::with('user')->join('users', 'logs.user_id', '=', 'users.id')->select('logs.*', 'users.name', 'users.username')->where('logs.' . $this->searchBy, 'like', $this->searchString . '%')->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
+            'logs' => Log::with('user')->join('users', 'logs.user_id', '=', 'users.id')->select(['logs.*', 'users.name', 'users.username'])->where($this->searchBy, 'like', $this->searchString . '%')->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
         ]);
     }
 }
