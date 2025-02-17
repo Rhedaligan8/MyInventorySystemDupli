@@ -24,7 +24,7 @@
         <x-bladewind::button button_text_css="font-bold" size="small"
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
         <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
-            wire:click="clearSearchString()">
+            wire:click="createNewUser()">
             <x-bladewind::icon name="user-plus" type="solid" class="!w-4 !h-4" />
             Add new user</x-bladewind::button>
     </div>
@@ -138,7 +138,7 @@
     <!-- links page -->
     <div>
         {{ $users->onEachSide(1)->links() }}
-        <div class="flex items-center gap-2 text-sm mt-4">
+        <div class="flex items-center gap-2 mt-4 text-sm">
             <p class="">Page: <span class="font-bold">{{ $users->currentPage() }}</span></p>
             <p>Total users: <span class="font-bold">{{ $totalUsers }}</span></p>
             <!-- items per page -->

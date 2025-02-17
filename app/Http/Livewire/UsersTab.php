@@ -99,4 +99,10 @@ class UsersTab extends Component
     {
         return redirect()->route("manage-user", ['username' => $username]);
     }
+
+    public function createNewUser()
+    {
+        return redirect()->route('create-user');
+    }
 }
+

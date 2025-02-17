@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
+
 class ManageUser extends Component
 {
     public $user;
@@ -21,15 +22,20 @@ class ManageUser extends Component
     public $updated_at;
 
     protected $rules = [
-        "name" => "required",
-        "username" => "required",
+        "name" => "required|max:255",
+        "username" => "required|max:255|min:8|unique:users|regex:/^\S*$/",
         "role" => "required",
         "status" => "required",
     ];
 
     protected $messages = [
-        "name.required" => "*Username is required.",
+        "name.required" => "*Name is required.",
+        "name.max" => "*Name is too long.",
         "username.required" => "*Password is required.",
+        "username.max" => "*Username is too long.",
+        "username.min" => "*Username must be at least 8 characters.",
+        "username.unique" => "*Username is already taken.",
+        "username.regex" => "*Username must not contain any spaces.",
         "role.required" => "*Password is required.",
         "status.required" => "*Password is required.",
     ];

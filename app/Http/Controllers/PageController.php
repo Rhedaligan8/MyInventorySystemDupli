@@ -24,4 +24,9 @@ class PageController extends Controller
     {
         return view('pages.user-logs', data: ['username' => $username]);
     }
+
+    public function viewCreateUser()
+    {
+        return view('pages.create-user');
+    }
 }

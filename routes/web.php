@@ -19,8 +19,12 @@ Route::get('/', [PageController::class, 'viewLoginPage'])->middleware('guest')->
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard', [PageController::class, 'viewDashboardPage'])->name('dashboard');
+
     Route::get('user/{username}', [PageController::class, 'viewManageUserPage'])->name('manage-user');
+
     Route::get('user/logs/{username}', [PageController::class, 'viewUserLogsPage'])->name('user-logs');
+
+    Route::get('create-user', [PageController::class, 'viewCreateUser'])->name('create-user');
 
     // auth
     Route::post('logout', [UserController::class, 'logout'])->name('logout');

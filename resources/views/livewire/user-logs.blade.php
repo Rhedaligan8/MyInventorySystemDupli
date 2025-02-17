@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col overflow-auto">
+<div class="flex flex-col h-full overflow-auto">
     <!-- loading element -->
     <div wire:loading class="absolute top-0 left-0 z-50 bg-zinc-900/30 size-full">
         <div class="flex items-center justify-center h-full">
@@ -8,8 +8,7 @@
     <!-- loading element -->
     <main class="w-full h-full flex flex-col min-w-[1000px]">
         <livewire:navbar />
-        <div class="flex flex-col h-full gap-4 py-4 px-8 grow overflow-hidden
-        ">
+        <div class="flex flex-col h-full gap-4 px-8 py-4 overflow-hidden grow ">
             <div class="flex justify-between">
                 <x-bladewind::button wire:click="backToManageProfile()" icon="arrow-left" radius="full" outline="true"
                     button_text_css="font-bold" class="hover:bg-black">
@@ -21,7 +20,7 @@
                 </x-bladewind::button>
             </div>
 
-            <div class="bg-zinc-50 border-4 border-zinc-300 rounded-2xl grow p-8 flex flex-col gap-2 overflow-hidden">
+            <div class="flex flex-col gap-2 p-8 overflow-hidden border-4 bg-zinc-50 border-zinc-300 rounded-2xl grow">
                 <!-- Search -->
                 <div class="flex items-center gap-4">
                     <form wire:submit.prevent="searchFilter" class="grow">
@@ -37,7 +36,7 @@
                 </div>
                 <!-- Search -->
                 <!-- table -->
-                <div class="font-jetbrains mb-2 grow overflow-auto table-container">
+                <div class="mb-2 overflow-auto font-jetbrains grow table-container">
                     <x-bladewind::table has_border="true" divider="thin">
                         <x-slot name="header">
                             <th>
@@ -75,7 +74,7 @@
                 <!-- links page -->
                 <div>
                     {{ $logs->onEachSide(1)->links() }}
-                    <div class="flex items-center gap-2 text-sm mt-4">
+                    <div class="flex items-center gap-2 mt-4 text-sm">
                         <p class="">Page: <span class="font-bold">{{ $logs->currentPage() }}</span></p>
                         <p>Total logs: <span class="font-bold">{{ $totalLogs }}</span></p>
                         <!-- items per page -->
