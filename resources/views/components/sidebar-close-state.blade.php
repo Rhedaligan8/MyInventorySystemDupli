@@ -17,23 +17,11 @@
             @click="activeTab = 'equipment type'">
             <x-bladewind::icon name="wrench-screwdriver" />
         </button>
-        <!-- Person Accountable -->
-        <button :class="activeTab == 'person accountable' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'person accountable'">
-            <x-bladewind::icon name="user" />
-        </button>
         <!-- Users -->
         <button :class="activeTab == 'users' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
             @click="activeTab = 'users'">
             <x-bladewind::icon name="users" />
-        </button>
-        <!-- Logs -->
-        <button :class="activeTab == 'logs' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'logs'">
-            <x-bladewind::icon name="clipboard-document-list" />
         </button>
     </div>
 </div>

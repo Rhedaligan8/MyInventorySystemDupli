@@ -4,8 +4,8 @@ namespace App\Http\Livewire;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\User;
-use App\Models\Log;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class UsersTab extends Component
 {
@@ -28,8 +28,6 @@ class UsersTab extends Component
     {
         $user = User::find($id);
         if ($user->delete()) {
-            $log = new Log(['description' => "Removed (Name: $user->name, Username: $user->username, Role: $user->role) from the database."]);
-            Auth::user()->logs()->save($log);
             $this->totalUsers = User::count();
             $this->dispatchBrowserEvent('showNotification', ['title' => 'Delete Successful', 'message' => 'User was deleted successfully', 'type' => 'success']);
         }
@@ -74,9 +72,18 @@ class UsersTab extends Component
     public function render()
     {
         $this->dispatchBrowserEvent('scrollToTop');
+        // return view('livewire.users-tab', [
+        //     'users' => User::where($this->searchBy, 'like', $this->searchString . '%')->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
+        // ]);
+
         return view('livewire.users-tab', [
-            'users' => User::where($this->searchBy, 'like', $this->searchString . '%')->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
+            'users' => DB::table('equipmentinventory.user')
+                ->join('infosys.employee', 'equipmentinventory.user.user_id', '=', 'infosys.employee.employee_id')->paginate()
         ]);
+
+
+
+
     }
 
     public function refreshTable(): void

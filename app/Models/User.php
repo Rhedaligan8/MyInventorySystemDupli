@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use App\Models\Log;
 
 class User extends Authenticatable
 {
+
+    protected $table = 'user'; // Define the correct table name
+
+    protected $primaryKey = 'user_id'; // Set primary key if not 'id'
+
+    public $incrementing = true; // Ensure auto-incrementing is enabled
+
+    protected $keyType = 'int'; // Specify primary key type
+
     /**
      * The attributes that are mass assignable.
      *

@@ -24,10 +24,6 @@ class LoginForm extends Component
         "password.required" => "*Password is required."
     ];
 
-    public function render()
-    {
-        return view('livewire.login_form');
-    }
     public function login()
     {
 
@@ -48,9 +44,13 @@ class LoginForm extends Component
             return;
         } else {
             Auth::login($user);
-            $log = new Log(['description' => "User logged in."]);
-            Auth::user()->logs()->save($log);
             redirect()->intended("dashboard");
         }
     }
+
+    public function render()
+    {
+        return view('livewire.login_form');
+    }
+
 }
