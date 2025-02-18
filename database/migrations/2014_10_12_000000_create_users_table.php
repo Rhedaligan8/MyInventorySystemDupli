@@ -14,18 +14,13 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->employee_id();
             $table->string('username', 255)->unique();
             $table->string('password', 255);
-            $table->enum("role", ["admin", "staff"]);
             $table->enum("status", ["active", "inactive"])->default("active");
             $table->timestamps();
-            $table->index('name');
             $table->index('username');
-            $table->index('role');
             $table->index('status');
-            $table->index('created_at');
-            $table->index('updated_at');
         });
     }
 

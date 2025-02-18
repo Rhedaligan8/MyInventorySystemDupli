@@ -23,12 +23,6 @@
             @click="activeTab = 'person accountable'">
             <x-bladewind::icon name="user" />
         </button>
-        <!-- Divisions and Sections -->
-        <button :class="activeTab == 'divisions and sections' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'divisions and sections'">
-            <x-bladewind::icon name="building-office" />
-        </button>
         <!-- Users -->
         <button :class="activeTab == 'users' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"

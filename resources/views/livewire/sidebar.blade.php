@@ -26,33 +26,12 @@
             <x-bladewind::icon name="wrench-screwdriver" />
             <span>Equipment Type</span>
         </button>
-        <!-- Person Accountable -->
-        <button :class="activeTab == 'person accountable' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'person accountable'">
-            <x-bladewind::icon name="user" />
-            <span>Person Accountable</span>
-        </button>
-        <!-- Divisions and Sections -->
-        <button :class="activeTab == 'divisions and sections' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'divisions and sections'">
-            <x-bladewind::icon name="building-office" />
-            <span>Divisions and Sections</span>
-        </button>
         <!-- Users -->
         <button :class="activeTab == 'users' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
             @click="activeTab = 'users'">
             <x-bladewind::icon name="users" />
             <span>Users</span>
-        </button>
-        <!-- Logs -->
-        <button :class="activeTab == 'logs' && 'active-tab'"
-            class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'logs'">
-            <x-bladewind::icon name="clipboard-document-list" />
-            <span>Logs</span>
         </button>
     </div>
 </div>

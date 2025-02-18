@@ -49,36 +49,18 @@
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'role'
-                    ])>ROLE</div>
-                </th>
-                <th>
-                    <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'status'
                     ])>STATUS</div>
-                </th>
-                <th>
-                    <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'created_at'
-                    ])>CREATED AT</div>
-                </th>
-                <th>
-                    <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'updated_at'
-                    ])>UPDATED AT</div>
-                </th>
-                <th>
-                    <div class="flex items-center gap-4 font-bold">
-                        ACTIONS
-                    </div>
                 </th>
             </x-slot>
             @foreach ($users as $user)
                 <tr>
                     <td>{{$loop->index + 1 + (($users->currentPage() - 1) * $itemPerPage)}} </td>
+
                     <td>{{$user->name}}</td>
+
                     <td>{{$user->username}}</td>
-                    <td><span @class(['font-bold' => $user->role == 'admin'])>{{$user->role}}</span></td>
+
                     <td>
                         @if ($user->status == 'active')
                             <x-bladewind::tag label="active" color="green" />
@@ -86,41 +68,6 @@
                             <x-bladewind::tag label="inactive" color="yellow" />
                         @endif
                     </td>
-                    <td>{{$user->created_at}}</td>
-                    <td>{{$user->updated_at}}</td>
-                    @if ($user->id != Auth::id())
-                            <!-- action buttons -->
-                            <td>
-                                <div class="flex gap-2 ">
-                                    <x-bladewind::button size="tiny" wire:click="redirectToManageUser('{{ $user->username }}')">
-                                        <x-bladewind::icon class="!h-4 !w-4" name="arrow-left-end-on-rectangle" />
-                                    </x-bladewind::button>
-                                    <x-bladewind::button size="tiny" color="red"
-                                        onclick="showCustomModal('delete-user-{{$user->id}}')">
-                                        <x-bladewind::icon class="!h-4 !w-4" name="trash" />
-                                    </x-bladewind::button>
-                                </div>
-                            </td>
-                            <!-- action buttons -->
-                        </tr>
-                        <!-- delete user modal -->
-                        <x-custom-modal modalName="delete-user-{{$user->id}}">
-                            <div class="p-4 rounded-md w-80 bg-zinc-50">
-                                <x-bladewind::alert type="warning" show_close_icon="false" shade="dark">
-                                    <p class="font-bold">{{ $user->name }} will be permanently deleted in the database.</p>
-                                </x-bladewind::alert>
-                                <div class="flex justify-end gap-2 mt-2">
-                                    <x-bladewind::button size="tiny"
-                                        onclick="hideCustomModal('delete-user-{{$user->id }}')">Cancel</x-bladewind::button>
-                                    <x-bladewind::button wire:loading.attr="disabled" color="red" size="tiny"
-                                        wire:click="deleteUser({{$user->id}})">Delete</x-bladewind::button>
-                                </div>
-                            </div>
-                        </x-custom-modal>
-                        <!-- delete user modal -->
-                    @else
-                        <td></td>
-                    @endif
             @endforeach
         </x-bladewind::table>
 

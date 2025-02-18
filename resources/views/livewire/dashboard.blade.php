@@ -10,21 +10,11 @@
             <div class="p-4 overflow-hidden grow">
                 <div class="h-full border-4 rounded-lg bg-zinc-50 border-zinc-300">
                     <!-- panels -->
-                    <!-- divisions and sections -->
-                    <div class="size-full" x-show="activeTab == 'divisions and sections'">
-                        <livewire:divisions-and-sections />
-                    </div>
-                    <!-- divisions and sections -->
                     <!-- users -->
                     <div class="size-full" x-show="activeTab == 'users'">
                         <livewire:users-tab />
                     </div>
                     <!-- users -->
-                    <!-- logs -->
-                    <div class="size-full" x-show="activeTab == 'logs'">
-                        <livewire:logs-tab />
-                    </div>
-                    <!-- logs -->
                     <!-- panels end -->
                 </div>
             </div>

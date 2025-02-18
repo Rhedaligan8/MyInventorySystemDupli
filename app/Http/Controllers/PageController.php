@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -18,11 +17,6 @@ class PageController extends Controller
     public function viewManageUserPage($username)
     {
         return view('pages.manage-user', ['username' => $username]);
-    }
-
-    public function viewUserLogsPage($username)
-    {
-        return view('pages.user-logs', data: ['username' => $username]);
     }
 
     public function viewCreateUser()

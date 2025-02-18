@@ -30,7 +30,6 @@ return new class extends Migration {
             $table->index("mr_no");
             $table->index("remarks");
             $table->index("created_at");
-            $table->index("updated_at");
         });
     }
 

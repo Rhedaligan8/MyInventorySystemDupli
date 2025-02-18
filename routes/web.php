@@ -22,8 +22,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('user/{username}', [PageController::class, 'viewManageUserPage'])->name('manage-user');
 
-    Route::get('user/logs/{username}', [PageController::class, 'viewUserLogsPage'])->name('user-logs');
-
     Route::get('create-user', [PageController::class, 'viewCreateUser'])->name('create-user');
 
     // auth
