@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('transfer_history', function (Blueprint $table) {
+        Schema::create('transfer_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId("equipment_id")->nullable()->constrained("equipments")->nullOnDelete();
             $table->date("date_of_transfer");

@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('section', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->string("name", 255)->unique();
             $table->foreignId("division_id")->nullable()->constrained("divisions")->nullOnDelete();

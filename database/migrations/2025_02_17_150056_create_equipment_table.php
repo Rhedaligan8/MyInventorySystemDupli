@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('equipment', function (Blueprint $table) {
+        Schema::create('equipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId("equipment_type_id")->nullable()->constrained("equipment_types")->nullOnDelete();
             $table->string("brand", 255);

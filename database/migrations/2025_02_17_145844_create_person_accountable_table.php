@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('person_accountable', function (Blueprint $table) {
+        Schema::create('person_accountables', function (Blueprint $table) {
             $table->id();
             $table->string("name", 255)->unique();
             $table->timestamps();
