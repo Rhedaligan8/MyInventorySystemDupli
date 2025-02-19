@@ -14,19 +14,19 @@
                 size="regular" />
         </form>
         <select class="px-4 py-1 rounded-md w-44 min-w-32" wire:model="searchBy">
-            <option value="name">Name</option>
+            <option value="lastname">Last name</option>
+            <option value="firstname">First name</option>
             <option value="username">Username</option>
-            <option value="role">Role</option>
-            <option value="status">Status</option>
-            <option value="created_at">Created At</option>
-            <option value="updated_at">Updated At</option>
+            <option value="date_created">Created</option>
         </select>
         <x-bladewind::button button_text_css="font-bold" size="small"
             wire:click="clearSearchString()">Refresh</x-bladewind::button>
-        <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
-            wire:click="createNewUser()">
-            <x-bladewind::icon name="user-plus" type="solid" class="!w-4 !h-4" />
-            Add new user</x-bladewind::button>
+        @if (Auth::user()->role == 1)
+            <x-bladewind::button button_text_css="font-bold flex items-center gap-2" size="small"
+                wire:click="createNewUser()">
+                <x-bladewind::icon name="user-plus" type="solid" class="!w-4 !h-4" />
+                Add new user</x-bladewind::button>
+        @endif
     </div>
     <!-- Search -->
 
@@ -52,25 +52,45 @@
                         'text-blue-500 font-bold' => $orderByString == 'status'
                     ])>STATUS</div>
                 </th>
+                <th>
+                    <div @class([
+                        'text-blue-500 font-bold' => $orderByString == 'role'
+                    ])>ROLE</div>
+                </th>
+                <th>
+                    <div @class([
+                        'text-blue-500 font-bold' => $orderByString == 'date_created'
+                    ])>CREATED</div>
+                </th>
             </x-slot>
             @foreach ($users as $user)
                 <tr>
                     <td>{{$loop->index + 1 + (($users->currentPage() - 1) * $itemPerPage)}} </td>
 
-                    <td>{{$user->name}}</td>
+                    <td>{{$user->lastname}}, {{$user->firstname}}</td>
 
                     <td>{{$user->username}}</td>
 
                     <td>
-                        @if ($user->status == 'active')
+                        @if ($user->status == '1')
                             <x-bladewind::tag label="active" color="green" />
-                        @elseif($user->status == 'inactive')
+                        @elseif($user->status == '0')
                             <x-bladewind::tag label="inactive" color="yellow" />
                         @endif
                     </td>
+
+
+                    <td>
+                        @if ($user->role == '1')
+                            <x-bladewind::tag label="admin" color="blue" />
+                        @elseif($user->role == '0')
+                            <x-bladewind::tag label="staff" color="gray" />
+                        @endif
+                    </td>
+
+                    <td>{{ $user->date_created }}</td>
             @endforeach
         </x-bladewind::table>
-
 
         <!-- no data message -->
         @if (!count($users))
@@ -109,12 +129,12 @@
             <div>
                 Sort by:
                 <select class="px-2 w-28" wire:model="orderByString">
-                    <option value="name">Name</option>
+                    <option value="lastname">Last name</option>
+                    <option value="firstname">First name</option>
                     <option value="username">Username</option>
-                    <option value="role">Role</option>
                     <option value="status">Status</option>
-                    <option value="created_at">Created At</option>
-                    <option value="updated_at">Updated At</option>
+                    <option value="role">Role</option>
+                    <option value="date_created">Created</option>
                 </select>
             </div>
             <!-- sort by -->

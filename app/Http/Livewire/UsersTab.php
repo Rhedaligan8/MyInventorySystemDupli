@@ -1,28 +1,24 @@
 <?php
 
 namespace App\Http\Livewire;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\User;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class UsersTab extends Component
 {
     use WithPagination;
     public $searchString = '';
-    public $itemPerPage = 10;
+    public $searchBy = "lastname";
     public $totalUsers;
+    public $itemPerPage = 10;
 
-    public $orderByString = 'created_at';
+    public $orderByString = 'date_created';
     public $orderBySort = 'desc';
 
-    public $searchBy = "name";
 
-    public function mount()
-    {
-        $this->totalUsers = User::count();
-    }
 
     public function deleteUser($id)
     {
@@ -32,6 +28,29 @@ class UsersTab extends Component
             $this->dispatchBrowserEvent('showNotification', ['title' => 'Delete Successful', 'message' => 'User was deleted successfully', 'type' => 'success']);
         }
     }
+
+    public function refreshTable(): void
+    {
+        $this->resetPage();
+    }
+
+    public function searchFilter()
+    {
+        $this->refreshTable();
+    }
+
+    public function clearSearchString()
+    {
+        $this->searchString = "";
+        $this->refreshTable();
+    }
+
+    public function redirectToManageUser($username)
+    {
+        return redirect()->route("manage-user", ['username' => $username]);
+    }
+
+    // setters
 
     public function setOrderBy($field)
     {
@@ -47,6 +66,13 @@ class UsersTab extends Component
             $this->orderBySort = "asc";
 
         }
+    }
+
+    // system default methods
+
+    public function createNewUser()
+    {
+        return redirect()->route('create-user');
     }
 
     public function updatedOrderBySort()
@@ -72,44 +98,22 @@ class UsersTab extends Component
     public function render()
     {
         $this->dispatchBrowserEvent('scrollToTop');
-        // return view('livewire.users-tab', [
-        //     'users' => User::where($this->searchBy, 'like', $this->searchString . '%')->orderBy($this->orderByString, $this->orderBySort)->paginate($this->itemPerPage)
-        // ]);
 
         return view('livewire.users-tab', [
-            'users' => DB::table('equipmentinventory.user')
-                ->join('infosys.employee', 'equipmentinventory.user.user_id', '=', 'infosys.employee.employee_id')->paginate()
+            'users' => DB::connection('mysql')->table('user')
+                ->join('infosys.employee', 'user.employee_id', '=', 'infosys.employee.employee_id')
+                ->select('user.*', 'infosys.employee.firstname', 'infosys.employee.lastname')->where(
+                    $this->searchBy,
+                    'like',
+                    $this->searchString . '%'
+                )->orderBy($this->orderByString, $this->orderBySort)
+                ->paginate($this->itemPerPage)
         ]);
-
-
-
-
     }
 
-    public function refreshTable(): void
+    public function mount()
     {
-        $this->resetPage();
-    }
-
-    public function searchFilter()
-    {
-        $this->refreshTable();
-    }
-
-    public function clearSearchString()
-    {
-        $this->searchString = "";
-        $this->refreshTable();
-    }
-
-    public function redirectToManageUser($username)
-    {
-        return redirect()->route("manage-user", ['username' => $username]);
-    }
-
-    public function createNewUser()
-    {
-        return redirect()->route('create-user');
+        $this->totalUsers = User::count();
     }
 }
 

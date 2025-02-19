@@ -2,8 +2,7 @@
     <h1 class="hidden text-lg font-bold font-inter lg:block">Philippine National Research Institute</h1>
     <h1 class="hidden text-lg font-bold xs:block font-inter lg:hidden">PNRI</h1>
     <div class="flex items-center gap-4">
-        <p class="hidden font-bold xxs:block">{{Auth::user()->name}} <span
-                class="font-normal">({{Auth::user()->role}})</span></p>
+        <p class="hidden font-bold xxs:block">{{$name}}</p>
         <div class="pl-4 border-l-4 border-zinc-300">
             <button><x-bladewind::icon type="solid" name="user-circle" class="!w-8 !h-8" /></button>
             <x-bladewind::dropmenu trigger="chevron-down-icon" padded="false" class="mt-5">

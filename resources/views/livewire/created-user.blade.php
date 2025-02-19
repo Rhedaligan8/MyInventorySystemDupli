@@ -25,12 +25,6 @@
                 <h1 class="mb-2 text-2xl font-bold text-center font-inter">Create New User</h1>
                 <div class="flex flex-col gap-4">
                     <div>
-                        <label for="name" class="font-bold text-zinc-500">Name</label>
-                        <x-bladewind::input placeholder="Enter name" add_clearing="false" wire:model.defer="name"
-                            id="name" size="small" />
-                        @error('name') <small class="text-red-500">{{ $message }}</small> @enderror
-                    </div>
-                    <div>
                         <label for="username" class="font-bold text-zinc-500">Username</label>
                         <x-bladewind::input placeholder="Enter username" add_clearing="false"
                             wire:model.defer="username" id="username" size="small" />

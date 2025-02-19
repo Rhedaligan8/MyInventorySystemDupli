@@ -17,8 +17,7 @@ class CreatedUser extends Component
     public $status = "active";
 
     protected $rules = [
-        "name" => "required|max:255",
-        "username" => "required|max:255|min:8|unique:users|regex:/^\S*$/",
+        "username" => "required|max:50|min:8|unique:users|regex:/^\S*$/",
         "role" => "required",
         "status" => "required",
     ];
@@ -69,6 +68,9 @@ class CreatedUser extends Component
 
     public function render()
     {
-        return view('livewire.created-user');
+        if (Auth::user()->role == 1) {
+            return view('livewire.created-user');
+        }
+        return redirect()->route("dashboard");
     }
 }
