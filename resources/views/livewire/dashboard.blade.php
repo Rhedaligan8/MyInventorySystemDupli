@@ -11,6 +11,16 @@
                 <div class="h-full border-4 rounded-lg bg-zinc-50 border-zinc-300">
                     <!-- panels -->
                     <!-- users -->
+                    <div class="size-full" x-show="activeTab == 'equipment'">
+                        <livewire:equipment-tab />
+                    </div>
+                    <!-- users -->
+                    <!-- users -->
+                    <div class="size-full" x-show="activeTab == 'equipment_types'">
+                        <livewire:equipment-type-tab />
+                    </div>
+                    <!-- users -->
+                    <!-- users -->
                     <div class="size-full" x-show="activeTab == 'users'">
                         <livewire:users-tab />
                     </div>

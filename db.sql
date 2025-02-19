@@ -9,6 +9,7 @@ CREATE TABLE user(
     username VARCHAR(50) NOT NULL,
     password VARCHAR(60) NOT NULL,
     status tinyint(1) NOT NULL DEFAULT '0',
+    role tinyint(1) NOT NULL DEFAULT '0',
     date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

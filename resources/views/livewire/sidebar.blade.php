@@ -13,16 +13,16 @@
     <!-- Tab List -->
     <div class="flex flex-col gap-3 px-8 overflow-y-auto">
         <!-- Items -->
-        <button :class="activeTab == 'items' && 'active-tab'"
+        <button :class="activeTab == 'equipment' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'items'">
+            @click="activeTab = 'equipment'">
             <x-bladewind::icon name="archive-box" />
             <span>Items</span>
         </button>
         <!-- Equipment Type -->
-        <button :class="activeTab == 'equipment type' && 'active-tab'"
+        <button :class="activeTab == 'equipment_types' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'equipment type'">
+            @click="activeTab = 'equipment_types'">
             <x-bladewind::icon name="wrench-screwdriver" />
             <span>Equipment Type</span>
         </button>

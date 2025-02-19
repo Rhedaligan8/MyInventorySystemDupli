@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ModifyUser extends Component
 {
@@ -13,7 +15,14 @@ class ModifyUser extends Component
     protected $listeners = ['openEditUser']; // Listen for events from the table component
 
     protected $rules = [
-        'username' => 'required|min:8|max:60|unique:user,username,{{user_id}},user_id',
+        'username' => 'required|min:8|max:60|regex:/^\S*$/',
+    ];
+
+    protected $messages = [
+        "username.required" => "*Username is required.",
+        "username.min" => "*Username must be at least 8 characters",
+        "username.max" => "*Username too long.",
+        "username.regex" => "*Username must not contain any spaces.",
     ];
 
     public function openEditUser($user_id)
@@ -25,6 +34,42 @@ class ModifyUser extends Component
             $this->status = $user->status;
             $this->role = $user->role;
             $this->isOpen = true;
+        }
+    }
+
+    public function deleteUser()
+    {
+        if (User::where('role', '=', 1)->count() <= 1) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User not delete',
+                'message' => 'A user can\'t deleted if only one admin exists.',
+                'type' => 'error'
+            ]);
+            $this->closeModal();
+            return;
+        }
+
+
+        $deleted = DB::table('user')->where('user_id', $this->user_id)->delete();
+
+        if ($deleted) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User delete',
+                'message' => 'User deleted successfully.',
+                'type' => 'success'
+            ]);
+
+            if (Auth::user()->user_id == $this->user_id) {
+                Auth::logout();
+                session()->invalidate();
+                session()->regenerateToken();
+                return redirect(to: "/");
+            }
+
+            // Emit event to table component to refresh data
+            $this->emit('refreshUsers');
+
+            $this->closeModal();
         }
     }
 
@@ -49,12 +94,15 @@ class ModifyUser extends Component
             'message' => 'User details updated successfully.',
             'type' => 'success'
         ]);
+
+        $this->closeModal();
     }
 
     public function closeModal()
     {
-        $this->reset(); // Reset fields
         $this->isOpen = false;
+        $this->resetErrorBag();
+        $this->reset(); // Reset fields
     }
 
     public function render()

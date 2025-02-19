@@ -6,15 +6,15 @@
     </div>
     <div class="flex flex-col items-center gap-3 overflow-y-auto">
         <!-- Items -->
-        <button :class="activeTab == 'items' && 'active-tab'"
+        <button :class="activeTab == 'equipment' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'items'">
+            @click="activeTab = 'equipment'">
             <x-bladewind::icon name="archive-box" />
         </button>
         <!-- Equipment Type -->
-        <button :class="activeTab == 'equipment type' && 'active-tab'"
+        <button :class="activeTab == 'equipment_types' && 'active-tab'"
             class="flex items-center gap-3 p-2 font-semibold transition-colors rounded-lg text-start"
-            @click="activeTab = 'equipment type'">
+            @click="activeTab = 'equipment_types'">
             <x-bladewind::icon name="wrench-screwdriver" />
         </button>
         <!-- Users -->

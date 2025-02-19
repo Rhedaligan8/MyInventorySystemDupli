@@ -91,7 +91,7 @@
                     <td>{{ $user->date_created }}</td>
 
                     <td>
-                        <button wire:click="openEditUser('edit-user', '{{ $user->user_id }}')">
+                        <button wire:click="openEditUser({{ $user->user_id }})">
                             <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
                         </button>
                     </td>
