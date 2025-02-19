@@ -75,7 +75,30 @@ class ModifyUser extends Component
 
     public function modifyUser()
     {
+
+        $this->username = trim($this->username);
+
         $this->validate();
+
+        if (User::where('role', '=', 1)->count() <= 1 && $this->role == 0) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User role modify failed',
+                'message' => 'A user with the role of admin cannot be change if there is only one admin.',
+                'type' => 'error'
+            ]);
+            $this->closeModal();
+            return;
+        }
+
+        if (User::where('role', '=', 1)->count() <= 1 && $this->role == 0) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User role modify failed',
+                'message' => 'A user with the role of admin cannot be change if there is only one admin.',
+                'type' => 'error'
+            ]);
+            $this->closeModal();
+            return;
+        }
 
         $user = User::find($this->user_id);
         if ($user) {

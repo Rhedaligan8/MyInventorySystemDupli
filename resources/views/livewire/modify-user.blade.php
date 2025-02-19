@@ -1,5 +1,6 @@
 <div x-data="{ open: @entangle('isOpen') }">
-    <div x-show="open" class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-4 bg-black/50">
+    <div x-show="open" x-cloak
+        class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-4 overflow-y-auto bg-black/50 size-full">
         <div class="p-6 rounded-lg bg-zinc-50 w-96">
             <h2 class="mb-4 text-xl font-bold text-center">Edit User</h2>
             <form wire:submit.prevent="modifyUser">
