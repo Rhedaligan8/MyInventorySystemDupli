@@ -26,22 +26,19 @@
                 'regular');
         });
 
+        window.addEventListener('openModal', function (event) {
+            document.getElementsByName(`custom-${event.detail.name}-modal`)[0].classList.remove('hidden');
+            document.getElementsByName(`custom-${event.detail.name}-modal`)[0].classList.add('block');
+        });
+
+        window.addEventListener('closeModal', function (event) {
+            document.getElementsByName(`custom-${event.detail.name}-modal`)[0].classList.add('hidden');
+            document.getElementsByName(`custom-${event.detail.name}-modal`)[0].classList.remove('block');
+        });
 
         window.addEventListener('scrollToTop', () => {
             document.querySelector('.table-container').scrollTo({ top: 0, behavior: 'auto' });
         });
-
-
-        function showCustomModal(name) {
-            document.getElementsByName(`custom-${name}-modal`)[0].classList.remove('hidden');
-            document.getElementsByName(`custom-${name}-modal`)[0].classList.add('flex');
-        }
-
-
-        function hideCustomModal(name) {
-            document.getElementsByName(`custom-${name}-modal`)[0].classList.remove('flex');
-            document.getElementsByName(`custom-${name}-modal`)[0].classList.add('hidden');
-        }
     </script>
 </body>
 

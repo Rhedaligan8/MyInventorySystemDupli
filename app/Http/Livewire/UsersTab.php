@@ -18,7 +18,25 @@ class UsersTab extends Component
     public $orderByString = 'date_created';
     public $orderBySort = 'desc';
 
+    // edit user variables
+    public $user_id, $username, $status, $role;
 
+    protected $rules = [
+        'username' => 'required|min:8|max:60|unique:user',
+    ];
+
+    protected $messages = [
+        'username.required' => '*Username is required.',
+        'username.max' => '*Username is too long.',
+        'username.mim' => '*Username must be at least 8 characters.',
+        'username.unique' => '*Username is already taken.',
+    ];
+
+    public function modifyUser()
+    {
+        $this->validate();
+        $this->skipRender();
+    }
 
     public function deleteUser($id)
     {
@@ -50,6 +68,28 @@ class UsersTab extends Component
         return redirect()->route("manage-user", ['username' => $username]);
     }
 
+    public function openEditUser($modal_name, $user_id)
+    {
+        // $user = User::find($user_id);
+        // $this->user_id = $user->user_id;
+        // $this->username = $user->username;
+        // $this->status = $user->status;
+        // $this->role = $user->role;
+        // $this->dispatchBrowserEvent('openModal', ['name' => $modal_name]);
+
+        $this->emit('openEditUser', $user_id);
+    }
+
+    public function closeEditUser($modal_name)
+    {
+        $this->user_id = '';
+        $this->username = '';
+        $this->status = '';
+        $this->role = '';
+        $this->dispatchBrowserEvent('closeModal', ['name' => $modal_name]);
+        return $this->skipRender();
+    }
+
     // setters
 
     public function setOrderBy($field)
@@ -68,6 +108,16 @@ class UsersTab extends Component
         }
     }
 
+    public function getUsersProperty()
+    {
+        return DB::connection('mysql')
+            ->table('user')
+            ->join('infosys.employee', 'user.employee_id', '=', 'infosys.employee.employee_id')
+            ->select('user.*', 'infosys.employee.firstname', 'infosys.employee.lastname')
+            ->where($this->searchBy, 'like', $this->searchString . '%')
+            ->orderBy($this->orderByString, $this->orderBySort)
+            ->paginate($this->itemPerPage);
+    }
     // system default methods
 
     public function createNewUser()
@@ -95,25 +145,15 @@ class UsersTab extends Component
         $this->refreshTable();
     }
 
-    public function render()
-    {
-        $this->dispatchBrowserEvent('scrollToTop');
-
-        return view('livewire.users-tab', [
-            'users' => DB::connection('mysql')->table('user')
-                ->join('infosys.employee', 'user.employee_id', '=', 'infosys.employee.employee_id')
-                ->select('user.*', 'infosys.employee.firstname', 'infosys.employee.lastname')->where(
-                    $this->searchBy,
-                    'like',
-                    $this->searchString . '%'
-                )->orderBy($this->orderByString, $this->orderBySort)
-                ->paginate($this->itemPerPage)
-        ]);
-    }
-
     public function mount()
     {
         $this->totalUsers = User::count();
     }
-}
 
+    public function render()
+    {
+        $this->dispatchBrowserEvent('scrollToTop');
+
+        return view('livewire.users-tab', ['users' => $this->users]);
+    }
+}

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 class PageController extends Controller
 {
     public function viewLoginPage()
@@ -14,13 +16,11 @@ class PageController extends Controller
         return view('livewire.dashboard');
     }
 
-    public function viewManageUserPage($username)
-    {
-        return view('pages.manage-user', ['username' => $username]);
-    }
-
     public function viewCreateUser()
     {
-        return view('pages.create-user');
+        if (Auth::user()->role == 1) {
+            return view('pages.create-user');
+        }
+        return redirect()->route("dashboard");
     }
 }

@@ -4,58 +4,57 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
-use App\Models\Log;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class CreatedUser extends Component
 {
-
-    public $name;
     public $username;
-    public $role = "staff";
-    public $status = "active";
+
+    public $employee_id = '';
+
+    public $employees = [];
+
+    public $role = "0";
+    public $status = "1";
 
     protected $rules = [
-        "username" => "required|max:50|min:8|unique:users|regex:/^\S*$/",
+        "username" => "required|max:50|min:8|unique:user|regex:/^\S*$/",
         "role" => "required",
         "status" => "required",
+        "employee_id" => "required",
     ];
 
     protected $messages = [
-        "name.required" => "*Name is required.",
-        "name.max" => "*Name is too long.",
-        "username.required" => "*Password is required.",
+        "username.required" => "*Username is required.",
         "username.max" => "*Username is too long.",
         "username.min" => "*Username must be at least 8 characters.",
         "username.unique" => "*Username is already taken.",
         "username.regex" => "*Username must not contain any spaces.",
+        "employee_id.required" => "*Select employee."
     ];
 
     public function createUser()
     {
-        $this->name = trim($this->name);
         $this->username = trim($this->username);
 
         $this->validate();
 
         $user = User::create([
-            'name' => $this->name,
+            'employee_id' => $this->employee_id,
             'username' => $this->username,
-            'role' => $this->role,
+            'password' => Hash::make($this->username . "-password"),
             'status' => $this->status,
-            'password' => Hash::make($this->username . "-password")
+            'role' => $this->role,
         ]);
 
         if ($user) {
             $this->dispatchBrowserEvent('showNotification', ['title' => 'Create new user success', 'message' => 'A new user was added to the database successfully', 'type' => 'success']);
-            $log = new Log(['description' => "User logged in."]);
-            Auth::user()->logs()->save($log);
-
-            $this->name = "";
             $this->username = "";
-            $this->role = "staff";
-            $this->status = "active";
+            $this->role = "0";
+            $this->status = "1";
+            $this->employee_id = '';
+            $this->populateEmployees();
         } else {
             $this->dispatchBrowserEvent('showNotification', ['title' => 'Create new user error', 'message' => 'A new user was not added to the database.', 'type' => 'error']);
         }
@@ -66,11 +65,23 @@ class CreatedUser extends Component
         return redirect()->route('dashboard');
     }
 
+    public function populateEmployees()
+    {
+        $this->employees = DB::table('infosys.employee')->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))->from('equipmentinventory.user')->whereRaw('equipmentinventory.user.employee_id = infosys.employee.employee_id');
+        })
+            ->get()
+            ->map(fn($item) => (array) $item) // Convert to array
+            ->toArray();
+    }
+
+    public function mount()
+    {
+        $this->populateEmployees();
+    }
+
     public function render()
     {
-        if (Auth::user()->role == 1) {
-            return view('livewire.created-user');
-        }
-        return redirect()->route("dashboard");
+        return view('livewire.created-user');
     }
 }

@@ -20,4 +20,5 @@
             </div>
         </div>
     </main>
+    <livewire:modify-user />
 </x-app-layout>
