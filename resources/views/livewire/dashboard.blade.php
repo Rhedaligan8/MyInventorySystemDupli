@@ -21,9 +21,9 @@
                     </div>
                     <!-- users -->
                     <!-- users -->
-                    <div class="size-full" x-show="activeTab == 'users'">
                         <livewire:users-tab />
                     </div>
+                    <div class="size-full" x-show="activeTab == 'users'">
                     <!-- users -->
                     <!-- panels end -->
                 </div>
@@ -31,4 +31,4 @@
         </div>
     </main>
     <livewire:modify-user />
-</x-app-layout>
+    </x-app-layout>
