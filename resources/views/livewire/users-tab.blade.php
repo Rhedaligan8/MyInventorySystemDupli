@@ -65,36 +65,45 @@
                 <th></th>
             </x-slot>
             @foreach ($users as $user)
-                <tr>
-                    <td>{{$loop->index + 1 + (($users->currentPage() - 1) * $itemPerPage)}} </td>
+                        <tr>
+                            <td>{{$loop->index + 1 + (($users->currentPage() - 1) * $itemPerPage)}} </td>
 
-                    <td>{{$user->lastname}}, {{$user->firstname}}</td>
+                            <td> <span @class(
+                                ['font-bold text-blue-500' => Auth::id() == $user->user_id]
+                            )>{{$user->lastname}},
+                                    {{$user->firstname}}</spa>
+                            </td>
 
-                    <td>{{$user->username}}</td>
+                            <td> <span @class(
+                                ['font-bold text-blue-500' => Auth::id() == $user->user_id]
+                            )>{{$user->username}}</span>
+                            </td>
 
-                    <td>
-                        @if ($user->status == '1')
-                            <x-bladewind::tag label="active" color="green" />
-                        @elseif($user->status == '0')
-                            <x-bladewind::tag label="inactive" color="yellow" />
-                        @endif
-                    </td>
+                            <td>
+                                @if ($user->status == '1')
+                                    <x-bladewind::tag label="active" color="green" />
+                                @elseif($user->status == '0')
+                                    <x-bladewind::tag label="inactive" color="yellow" />
+                                @endif
+                            </td>
 
-                    <td>
-                        @if ($user->role == '1')
-                            <x-bladewind::tag label="admin" color="blue" />
-                        @elseif($user->role == '0')
-                            <x-bladewind::tag label="staff" color="gray" />
-                        @endif
-                    </td>
+                            <td>
+                                @if ($user->role == '1')
+                                    <x-bladewind::tag label="admin" color="blue" />
+                                @elseif($user->role == '0')
+                                    <x-bladewind::tag label="staff" color="gray" />
+                                @endif
+                            </td>
 
-                    <td>{{ $user->date_created }}</td>
+                            <td>{{ $user->date_created }}</td>
 
-                    <td>
-                        <button wire:click="openEditUser({{ $user->user_id }})">
-                            <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
-                        </button>
-                    </td>
+                            <td>
+                                @if (Auth::user()->role == 1)
+                                    <button wire:click="openEditUser({{ $user->user_id }})">
+                                        <x-bladewind::icon name="wrench-screwdriver" class="text-blue-900" />
+                                    </button>
+                                @endif
+                            </td>
             @endforeach
         </x-bladewind::table>
 

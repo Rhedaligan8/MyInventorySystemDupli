@@ -39,11 +39,16 @@ class ModifyUser extends Component
         }
     }
 
+    public function resetPassword()
+    {
+
+    }
+
     public function deleteUser()
     {
         if (User::where('role', '=', 1)->count() <= 1) {
             $this->dispatchBrowserEvent('showNotification', [
-                'title' => 'User not delete',
+                'title' => 'User delete failed',
                 'message' => 'A user can\'t deleted if only one admin exists.',
                 'type' => 'error'
             ]);
@@ -101,7 +106,6 @@ class ModifyUser extends Component
                 return;
             }
         }
-
 
         $user = User::find($this->user_id);
         if ($user) {
