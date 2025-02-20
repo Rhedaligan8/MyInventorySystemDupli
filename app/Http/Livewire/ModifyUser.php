@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ModifyUser extends Component
 {
+    public $current_username;
     public $user_id, $username, $status, $role;
     public $isOpen = false; // Track modal state
 
@@ -31,6 +32,7 @@ class ModifyUser extends Component
         if ($user) {
             $this->user_id = $user->user_id;
             $this->username = $user->username;
+            $this->current_username = $user->username;
             $this->status = $user->status;
             $this->role = $user->role;
             $this->isOpen = true;
@@ -80,15 +82,6 @@ class ModifyUser extends Component
 
         $this->validate();
 
-        if (User::where('role', '=', 1)->count() <= 1 && $this->role == 0) {
-            $this->dispatchBrowserEvent('showNotification', [
-                'title' => 'User role modify failed',
-                'message' => 'A user with the role of admin cannot be change if there is only one admin.',
-                'type' => 'error'
-            ]);
-            $this->closeModal();
-            return;
-        }
 
         if (User::where('role', '=', 1)->count() <= 1 && $this->role == 0) {
             $this->dispatchBrowserEvent('showNotification', [
@@ -99,6 +92,16 @@ class ModifyUser extends Component
             $this->closeModal();
             return;
         }
+
+        if ($this->current_username != $this->username) {
+            $user = User::where('username', "=", $this->username)->first();
+
+            if ($user) {
+                $this->addError('username', '*Username already exists.');
+                return;
+            }
+        }
+
 
         $user = User::find($this->user_id);
         if ($user) {
