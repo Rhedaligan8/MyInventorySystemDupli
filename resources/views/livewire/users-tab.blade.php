@@ -13,7 +13,7 @@
             <x-bladewind::input focused placeholder="Search..." wire:model.defer="searchString" add_clearing="false"
                 size="regular" />
         </form>
-        <select class="px-4 py-1 rounded-md w-44 min-w-32" wire:model="searchBy">
+        <select class="px-4 py-1 rounded-md w-44 min-w-32" wire:model="searchBy"> <!-- This is the Search Engine from the user to able to search specific information -->
             <option value="lastname">Last name</option>
             <option value="firstname">First name</option>
             <option value="username">Username</option>
@@ -35,32 +35,32 @@
         <x-bladewind::table has_border="true" divider="thin">
             <x-slot name="header">
                 <th>
-                    <div>#</div>
+                    <div>#</div> <!-- This is the table head in the User section/pages -->
                 </th>
                 <th>
                     <div @class([
-                        'text-blue-500 font-bold' => $orderByString == 'name'
-                    ])>NAME</div>
+                        'text-blue-500 font-bold' => $orderByString == 'name' //The value display such as name, username, status, role, and date_created is from the value depends on the model searchBy
+                    ])>NAME</div> <!-- This is the table head in the User section/pages -->
                 </th>
                 <th>
                     <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'username'
-                    ])>USERNAME</div>
+                    ])>USERNAME</div> <!-- This is the table head in the User section/pages -->
                 </th>
                 <th>
                     <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'status'
-                    ])>STATUS</div>
+                    ])>STATUS</div> <!-- This is the table head in the User section/pages -->
                 </th>
                 <th>
                     <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'role'
-                    ])>ROLE</div>
+                    ])>ROLE</div> <!-- This is the table head in the User section/pages -->
                 </th>
                 <th>
                     <div @class([
                         'text-blue-500 font-bold' => $orderByString == 'date_created'
-                    ])>CREATED</div>
+                    ])>CREATED</div> <!-- This is the table head in the User section/pages -->
                 </th>
                 <th></th>
             </x-slot>
@@ -156,7 +156,7 @@
             <!-- sort order -->
             <div>
                 Sort order:
-                <select class="px-2 w-28" wire:model="orderBySort">
+                <select class="px-2 w-28" wire:model="orderBySort"><!-- This is the sorting where can sort into ASCENDING OR DESCENDING ORDER THAT DEPENDS IN THE wire:model orderByString -->
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                 </select>
