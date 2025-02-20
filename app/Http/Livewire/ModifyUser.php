@@ -41,12 +41,12 @@ class ModifyUser extends Component
 
     public function resetPassword()
     {
-
+        $resetPassword = User::where()
     }
 
     public function deleteUser()
     {
-        if (User::where('role', '=', 1)->count() <= 1) {
+        if (User::where('role', '=', 1)->count() <= 1 && $this->role == 1) {
             $this->dispatchBrowserEvent('showNotification', [
                 'title' => 'User delete failed',
                 'message' => 'A user can\'t deleted if only one admin exists.',
