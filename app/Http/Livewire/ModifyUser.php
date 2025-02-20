@@ -6,11 +6,12 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ModifyUser extends Component
 {
     public $current_username;
-    public $user_id, $username, $status, $role;
+    public $user_id, $username, $status, $role, $password = '';
     public $isOpen = false; // Track modal state
 
     protected $listeners = ['openEditUser']; // Listen for events from the table component
@@ -41,8 +42,43 @@ class ModifyUser extends Component
 
     public function resetPassword()
     {
-        $resetPassword = User::where()
+        $resetPassword = User::where('user_id', $this->user_id)->update([
+            'password' => Hash::make($this->username . '-password')
+        ]);
+
+        if ($resetPassword) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User password reset success',
+                'message' => 'Password reset successful.',
+                'type' => 'success'
+            ]);
+            $this->closeModal();
+        }
     }
+
+    public function changePassword()
+    {
+
+        if (strlen(trim(($this->password))) < 8) {
+            $this->addError('password', '*Password must be at least 8 characters.');
+            return;
+        }
+
+        $changePassword = User::where('user_id', $this->user_id)->update([
+            'password' => Hash::make($this->password)
+        ]);
+
+        if ($changePassword) {
+            $this->dispatchBrowserEvent('showNotification', [
+                'title' => 'User password successfully changed',
+                'message' => 'Password change successful.',
+                'type' => 'success'
+            ]);
+            $this->password = '';
+            $this->closeModal();
+        }
+    }
+
 
     public function deleteUser()
     {
@@ -87,8 +123,7 @@ class ModifyUser extends Component
 
         $this->validate();
 
-
-        if (User::where('role', '=', 1)->count() <= 1 && $this->role == 0) {
+        if (User::where('role', '=', 1)->count() <= 1 && $this->role == 0 && Auth::user()->user_id == $this->user_id) {
             $this->dispatchBrowserEvent('showNotification', [
                 'title' => 'User role modify failed',
                 'message' => 'A user with the role of admin cannot be change if there is only one admin.',
@@ -98,6 +133,7 @@ class ModifyUser extends Component
             return;
         }
 
+        // to allow update if the username is not changed, bypassing the unique filter
         if ($this->current_username != $this->username) {
             $user = User::where('username', "=", $this->username)->first();
 

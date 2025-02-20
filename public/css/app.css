@@ -642,6 +642,22 @@ body{
   margin-top: auto;
   margin-bottom: auto;
 }
+.my-1{
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.my-2{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.mx-2{
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.my-4{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
 .-ml-px{
   margin-left: -1px;
 }
@@ -706,6 +722,12 @@ body{
 }
 .h-screen{
   height: 100vh;
+}
+.h-2{
+  height: 0.5rem;
+}
+.h-1{
+  height: 0.25rem;
 }
 .\!w-4{
   width: 1rem !important;
@@ -872,6 +894,10 @@ body{
 }
 .bg-zinc-900\/30{
   background-color: rgb(24 24 27 / 0.3);
+}
+.bg-zinc-300{
+  --tw-bg-opacity: 1;
+  background-color: rgb(212 212 216 / var(--tw-bg-opacity, 1));
 }
 .bg-gradient-to-b{
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));

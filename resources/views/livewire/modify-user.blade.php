@@ -1,4 +1,4 @@
-<div x-data="{ open: @entangle('isOpen') }">
+<div x-data="{ open: @entangle('isOpen'), password:  @entangle('password').defer }">
     <div x-show="open" x-cloak
         class="absolute inset-0 top-0 left-0 z-40 flex items-start justify-center p-4 overflow-y-auto bg-black/50 size-full">
         <div class="p-6 rounded-lg bg-zinc-50 w-96">
@@ -25,6 +25,24 @@
                         <option value="1">Active</option>
                     </select>
                 </div>
+                <x-bladewind::alert show_close_icon="false">
+                    Password reset is (username)-password
+                </x-bladewind::alert>
+                <div class="mb-2">
+                    <label for="password">Password</label>
+                    <div class="flex gap-2">
+                        <x-bladewind::input x-model="password" class="grow" add_clearing="false"
+                            wire:model.defer="password" id="password" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" />
+                        <x-bladewind::button x-show="password == ''" size="tiny" wire:click="resetPassword()"
+                            button_text_css="font-bold" size="small">Reset
+                        </x-bladewind::button>
+                        <x-bladewind::button x-show="password != ''" wire:click="changePassword()" button_text_css="
+                            font-bold" size="small">Change
+                        </x-bladewind::button>
+                    </div>
+                    @error('password') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+                </div>
+                <div class="h-1 my-4 bg-zinc-300"></div>
                 <div class="flex gap-2 mt-2">
                     <x-bladewind::button class="w-full" wire:click="deleteUser" color="red" outline="true"
                         button_text_css="font-bold" size="small">Delete
@@ -37,6 +55,6 @@
                     button_text_css="font-bold" size="small">Close
                 </x-bladewind::button>
             </form>
-        </div>
+        </div>s
     </div>
 </div>
